@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const User= require('../models/user'); // Adjust the path according to your project structure
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 exports.createuser = async (req, res) => {
   const { name, email, phone, password } = req.body;
@@ -33,4 +35,30 @@ exports.createuser = async (req, res) => {
       error: error.errors ? error.errors[0].message : error.message
     });
   }
+};
+
+exports.loginuser = async (req, res, next) => {
+    const { email, password } = req.body;
+    
+    try {
+        // Find user by email
+        console.log('login method called');
+        const user = await User.findOne({ where: { email } });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Invalid password' });
+        }
+        const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_PRIVATE_KEY);
+
+        // Successful login
+        res.status(200).json({ message: 'Login successful', token});
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 };
