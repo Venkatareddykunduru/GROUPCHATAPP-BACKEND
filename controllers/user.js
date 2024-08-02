@@ -56,7 +56,7 @@ exports.loginuser = async (req, res, next) => {
         const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_PRIVATE_KEY);
 
         // Successful login
-        res.status(200).json({ message: 'Login successful', token});
+        res.status(200).json({ message: 'Login successful', token , userid:user.id});
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ message: 'Internal server error' });
