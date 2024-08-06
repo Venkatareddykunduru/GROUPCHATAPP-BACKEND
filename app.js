@@ -4,6 +4,7 @@ const bodyparser=require('body-parser');
 const sequelize=require('./util/database');
 const socketio=require('socket.io');
 const http=require('http');
+const path = require('path');
 
 //import models
 const User=require('./models/user');
@@ -97,6 +98,9 @@ app.use('/auth',userauthroutes);
 app.use('/group',grouproutes);
 app.use('/message',messageroutes);
 
+app.use((req,res)=>{
+  res.sendFile(path.join(__dirname,`public/${req.url}`));
+});
 
 
 
@@ -109,7 +113,7 @@ app.use('/message',messageroutes);
 
 (async () => {
     try {
-        await sequelize.sync({force:true});
+        await sequelize.sync();
         server.listen(process.env.PORT, () => {
             console.log(`Server is listening on port ${process.env.PORT}`);
         });

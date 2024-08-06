@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <style>
+        .chat-container {
+            display: flex;
+            height: calc(100vh - 56px); /* Adjust for navbar height */
+            margin-top: 56px; /* Space for fixed navbar */
+        }
+        .groups-list {
+            border-right: 1px solid #ddd;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .chat-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .message-input {
+            border-top: 1px solid #ddd;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <a class="navbar-brand" href="#">ChatApp</a>
+        <div class="ml-auto">
+            <button class="btn btn-outline-light mr-2" id="createGroupButton" title="Create Group" data-bs-toggle="modal" data-bs-target="#createGroupModal">
+                <i class="fas fa-plus"></i>
+            </button>
+            <button class="btn btn-outline-light" id="settingsButton" title="Settings">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+    </nav>
+    <div class="container-fluid chat-container">
+        <div class="col-md-4 groups-list p-3">
+            <h4>Groups</h4>
+            <ul id="groupList" class="list-group">
+                <!-- Group items will be dynamically added here -->
+            </ul>
+        </div>
+        <div class="col-md-8 chat-box">
+            <div class="chat-header mt-2 bg-secondary text-white d-flex justify-content-between align-items-center p-2">
+                <span id="groupName">Group Name</span>
+                <div>
+                    <button class="btn btn-outline-light mr-2" id="showUsersButton" title="Show Users" data-bs-toggle="dropdown">
+                        <i class="fas fa-users"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="showUsersButton" id="userListDropdown">
+                        <!-- Dynamically populated user list -->
+                        <a class="dropdown-item" href="#">User 1</a>
+                        <a class="dropdown-item" href="#">User 2</a>
+                        <!-- More users -->
+                    </div>
+                    <button class="btn btn-outline-light" id="addUserButton" title="Add User" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="chatMessages" class="messages">
+                <!-- Messages will be dynamically added here -->
+            </div>
+            <form id="messageForm" class="message-input">
+                <input type="file" id="fileInput" multiple>
+                <div class="input-group">
+                    <input type="text" id="messageInput" class="form-control" placeholder="Type your message...">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Create Group Modal -->
+    <div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createGroupModalLabel">Create Group</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                </div>
+                <div class="modal-body">
+                    <form id="createGroupForm">
+                        <div class="mb-3">
+                            <label for="creatinggroup" class="form-label">Group Name</label>
+                            <input type="text" class="form-control" id="creatinggroup" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserModalLabel">Add User to Group</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                </div>
+                <div class="modal-body">
+                    <form id="addUserForm">
+                        <div class="mb-3">
+                            <label for="userId" class="form-label">User Id</label>
+                            <input type="number" class="form-control" id="userId" placeholder="Enter user Id" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add User</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="home.js"></script>
+</body>
+</html>

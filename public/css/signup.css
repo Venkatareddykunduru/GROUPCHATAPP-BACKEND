@@ -1,0 +1,32 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f8f9fa; /* Background color instead of image */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.card {
+    width: 100%;
+    max-width: 500px;
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent background */
+    color: white; /* Text color inside the card */
+}
+
+.card-header h2 {
+    color: #fff; /* Header text color */
+}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent form fields */
+}
+
+.text-center a {
+    color: #fff; /* Link color */
+}
