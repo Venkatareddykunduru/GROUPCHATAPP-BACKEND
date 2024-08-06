@@ -6,7 +6,7 @@ document.getElementById('signupForm').addEventListener('submit', async function(
     const password = document.getElementById('password').value;
 
     try {
-        const response = await axios.post('http://localhost:3000/auth/signup', {
+        const response = await axios.post('http://18.207.139.223/auth/signup', {
             name:name,
             email:email,
             phone:phone,

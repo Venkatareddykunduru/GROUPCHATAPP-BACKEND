@@ -5,7 +5,7 @@ const loggedInUserId = parseInt(localStorage.getItem('userid'),10);
 
 const token=localStorage.getItem('token');
 console.log("this is token",token);
-const socket = io('http://localhost:3000',{
+const socket = io('http://18.207.139.223',{
     auth:{
         token:token
     }
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Load groups
     try {
-        const response = await axios.get('http://localhost:3000/group/getgroups', {
+        const response = await axios.get('http://18.207.139.223/group/getgroups', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const groups = response.data.groups;
@@ -121,7 +121,7 @@ async function switchGroup(groupId,groupName) {
     try {
         const token = localStorage.getItem('token');
         const lastMessageId = storedMessages.length > 0 ? storedMessages[storedMessages.length - 1].id : -1;
-        const response = await axios.get(`http://localhost:3000/message/getmessages`, {
+        const response = await axios.get(`http://18.207.139.223/message/getmessages`, {
             headers: { 'Authorization': `Bearer ${token}` },
             params: {
                 groupId,
@@ -184,7 +184,7 @@ document.getElementById('messageForm').addEventListener('submit', async function
         }
         try {
             const token=localStorage.getItem('token');
-            const response = await axios.post('http://localhost:3000/message/uploadfile', formData, {
+            const response = await axios.post('http://18.207.139.223/message/uploadfile', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -218,7 +218,7 @@ document.getElementById('createGroupForm').addEventListener('submit', async func
     const token = localStorage.getItem('token');
     const groupList = document.getElementById('groupList');
     try {
-        const response = await axios.post('http://localhost:3000/group/creategroup',{name:groupName}, {
+        const response = await axios.post('http://18.207.139.223/group/creategroup',{name:groupName}, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const group = response.data.group;
@@ -248,7 +248,7 @@ document.getElementById('createGroupForm').addEventListener('submit', async func
 async function fetchAndDisplayUsers() {
     try {
         const token=localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/group/getusers', {
+        const response = await axios.get('http://18.207.139.223/group/getusers', {
             headers: { 'Authorization': `Bearer ${token}` },
             params: { groupId: currentGroupId } 
         });
@@ -289,7 +289,7 @@ async function handleAdminToggle(button, userId, currentStatus) {
     try {
         const newStatus = currentStatus === 'yes' ? 'no' : 'yes';
         const token=localStorage.getItem('token');
-        await axios.post('http://localhost:3000/group/makeadmin', { groupId: currentGroupId, userId, newStatus },
+        await axios.post('http://18.207.139.223/group/makeadmin', { groupId: currentGroupId, userId, newStatus },
             {
                 headers: { 'Authorization': `Bearer ${token}` }
             }
@@ -310,7 +310,7 @@ async function handleRemoveUser(button, userId) {
         return;
     }
     try {
-        await axios.post('http://localhost:3000/group/removeuserfromgroup', { groupId: currentGroupId, userId },
+        await axios.post('http://18.207.139.223/group/removeuserfromgroup', { groupId: currentGroupId, userId },
             {headers: { 'Authorization': `Bearer ${token}` }}
         );
         alert('user removed successfully');
@@ -329,7 +329,7 @@ document.getElementById('addUserForm').addEventListener('submit', async function
     console.log('the user id is: ',userId);
     console.log('the type of userid is: ',typeof userId);
     try {
-        const response = await axios.post('http://localhost:3000/group/addusertogroup',{userId,groupId:currentGroupId}, {
+        const response = await axios.post('http://18.207.139.223/group/addusertogroup',{userId,groupId:currentGroupId}, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
